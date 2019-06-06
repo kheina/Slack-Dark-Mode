@@ -1,0 +1,18 @@
+# credentials
+**/credentials.*
+**/credentials
+credentials
+
+# python files
+**/__pycache__
+
+# text files, except a requirements file, should it exist
+*.log
+*.txt
+!requirements.txt
+
+# vs code workspace stuff
+.vscode/*
+
+# grab ALL markdown files. These are all readmes, setups, and tutorials
+!*.md
