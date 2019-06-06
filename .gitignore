@@ -9,6 +9,7 @@ credentials
 # text files, except a requirements file, should it exist
 *.log
 *.txt
+ssb-interop-save.js
 !requirements.txt
 
 # vs code workspace stuff

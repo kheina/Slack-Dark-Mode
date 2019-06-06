@@ -1,0 +1,30 @@
+:root {
+	/* Modify these to change your theme colors: */
+	--primary: #2676D5;
+	--text: #EEE;
+	--text-subtle: #5D636A;
+	--background: #111;
+	--background-hover: #222;
+	--background-elevated: #2D333A;
+
+	--online: #00ff00;
+
+	--private: #e8912d;
+
+
+	/* These should be less important: */
+	--background-light: #AAA;
+	--background-bright: #FFF;
+	--text-code: #9BF;
+	--background-code: #181818;
+
+	--border-dim: #666;
+	--border-bright: var(--primary);
+
+	--text-bright: #FFF;
+	--text-special: var(--primary);
+	--text-special-hover: #2F4A74;
+
+	--scrollbar-background: #000;
+	--scrollbar-border: var(--primary);
+}
