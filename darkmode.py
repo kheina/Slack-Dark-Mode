@@ -37,7 +37,6 @@ def createJavascript() :
 		{"var(--background-elevated)": [29, 28, 29, 0.05]},
 		{"var(--text-special-hover)": [232, 245, 250, 1]},
 		{"var(--background-bright)": [0, 0, 0, 1]},
-		{"transparent": [0, 0, 0, 0]},
 		{"var(--background-light)": [0, 0, 0, 0.1]},
 		{"var(--text-subtle)": [0, 0, 0, 0.08]},
 		{"var(--border-dim)": [0, 0, 0, 0.15]},
@@ -69,6 +68,8 @@ def createJavascript() :
 	}
 	function findReplacement(color)
 	{
+		if (color.length > 3 && color[3] == 0)
+		{ return "transparent"; }
 		lowest = 1000000;
 		index = -1;
 		for (m = 0; m < replacements.length; m++)
