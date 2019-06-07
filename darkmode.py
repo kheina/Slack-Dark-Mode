@@ -163,7 +163,7 @@ def install() :
 		with open(installDirectory, 'w') as slackjs :
 			slackjs.write(ssbinterop)
 
-	print('done, please restart slack.')
+	print('done. please restart slack.')
 
 
 def uninstall() :
@@ -188,8 +188,6 @@ def uninstall() :
 	with open(installDirectory, 'w') as slackjs :
 		slackjs.write(ssbinterop)
 
-	print('sorry you don\'t like darkmode, you can customize the colors in colors.css.\nfor now, please restart slack.')
-
 
 if __name__ == '__main__' :
 	query = False
@@ -198,6 +196,10 @@ if __name__ == '__main__' :
 	if len(sys.argv) > 1 :
 		if sys.argv[1].startswith('uninst') :
 			uninstall()
+			print('sorry you don\'t like darkmode, you can customize the colors in colors.css.\nfor now, please restart slack.')
+		elif sys.argv[1].startswith('reinst') :
+			uninstall()
+			install()
 		elif sys.argv[1].startswith('print') :
 			print(createJavascript())
 			print('darkMode()')
