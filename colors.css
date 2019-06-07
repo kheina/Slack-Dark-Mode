@@ -8,6 +8,7 @@
 	--background-elevated: #3D434A;
 	--border-dim: #5D636A;
 	--text-code: #9BF;
+	--background-mention: var(--background-hover);
 
 	--online: #00ff00;
 	--pressed: #2F4A74;
@@ -22,7 +23,6 @@
 
 	--text-bright: #FFF;
 	--text-special: var(--primary);
-	--text-special-hover: var(--background-elevated);
 	--private: var(--text-subtle);
 
 	--scrollbar-background: #0000;

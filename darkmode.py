@@ -14,39 +14,12 @@ def createJavascript() :
 	colors = ''
 	with open('colors.css', 'r') as colorfile :
 		colors = colorfile.read()
+	replacements = ''
+	with open('replacements.json', 'r') as replacementsfile :
+		replacements = replacementsfile.read()
 
 	jsmod = """
-	replacements = [
-		{"var(--background)": [255, 255, 255, 1]},
-		{"var(--text-subtle)": [97, 96, 97, 1]},
-		{"var(--border-dim)": [221, 221, 221, 1]},
-		{"var(--text)": [29, 28, 29, 1]},
-		{"var(--primary)": [58, 163, 227, 1]},
-		{"var(--primary)": [18, 100, 163, 1]},
-		{"var(--text-subtle)": [134, 134, 134, 1]},
-		{"var(--primary)": [29, 155, 209, 1]},
-		{"var(--background-hover)": [248, 248, 248, 1]},
-		{"var(--text-subtle)": [29, 28, 29, 0.7]},
-		{"var(--pressed)": [0, 122, 90, 1]},
-		{"var(--text-code)": [224, 30, 90, 1]},
-		{"var(--primary)": [29, 155, 209, 0.3]},
-		{"var(--primary)": [11, 76, 140, 1]},
-		{"var(--text-subtle)": [29, 28, 29, 0.13]},
-		{"var(--private)": [232, 145, 45, 1]},
-		{"var(--background-code)": [247, 247, 249, 1]},
-		{"var(--background-elevated)": [29, 28, 29, 0.05]},
-		{"var(--text-special-hover)": [232, 245, 250, 1]},
-		{"var(--background-hover)": [0, 0, 0, 0.08]},
-		{"var(--border-dim)": [0, 0, 0, 0.15]},
-		{"var(--text-subtle)": [0, 0, 0, 0.5]},
-		{"var(--background-light)": [0, 0, 0, 0.9]},
-		{"var(--background-bright)": [0, 0, 0, 1]},
-		{"var(--background)": [255, 255, 255, 0.95]},
-		{"var(--background-code)": [34, 34, 34, 1]},
-		{"var(--text-code)": [51, 51, 51, 1]},
-		{"var(--online)": [147, 204, 147, 1]},
-		{"var(--gold)": [242, 199, 68, 1]}
-	];
+	replacements = {replacements.json will be added here};
 
 	function convertColor(str)
 	{
@@ -100,7 +73,8 @@ def createJavascript() :
 						if (replacement)
 						{ temprule = temprule.replace(/rgb[a]{0,1}\\([0-9\\., ]{7,}\\)/, replacement); }
 					}
-
+					
+					// clean up temp rule here
 
 					allcss = allcss + temprule + '\\n';
 				}
@@ -113,7 +87,10 @@ def createJavascript() :
 	}
 	"""
 
-	return jsmod.replace('{your colors will go here}', colors.replace('\n', ' '))
+	jsmod = jsmod.replace('{your colors will go here}', colors.replace('\n', ' '))
+	jsmod = jsmod.replace('{replacements.json will be added here}', replacements.replace('\n', ' '))
+
+	return jsmod
 
 def install() :
 	jsmod = createJavascript() + """
