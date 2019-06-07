@@ -8,8 +8,8 @@
 	--background-elevated: #2D333A;
 
 	--online: #00ff00;
-
-	--private: #e8912d;
+	--pressed: #2F4A74;
+	--gold: #F2E317;
 
 
 	/* These should be less important: */
@@ -23,7 +23,8 @@
 
 	--text-bright: #FFF;
 	--text-special: var(--primary);
-	--text-special-hover: #2F4A74;
+	--text-special-hover: var(--background-elevated);
+	--private: var(--text-subtle);
 
 	--scrollbar-background: #000;
 	--scrollbar-border: var(--primary);
