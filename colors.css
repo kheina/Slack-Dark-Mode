@@ -30,5 +30,5 @@
 }
 
 /* css overrides */
-span.c-reaction__tip, .ql-placeholder
+span.c-reaction__tip, .ql-placeholder, .c-tooltip__tip, span.ts_tip_tip
 { color: var(--text-bright) !important; }
