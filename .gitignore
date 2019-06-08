@@ -6,6 +6,13 @@ credentials
 # python files
 **/__pycache__
 
+# test files
+*test.*
+*test
+
+# custom files
+custom/*
+
 # text files, except a requirements file, should it exist
 *.log
 *.txt

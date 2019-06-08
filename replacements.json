@@ -28,5 +28,8 @@
 	{"var(--background-mention)": [34, 34, 34, 1]},
 	{"var(--text-code)": [51, 51, 51, 1]},
 	{"var(--online)": [147, 204, 147, 1]},
-	{"var(--gold)": [242, 199, 68, 1]}
+	{"var(--gold)": [242, 199, 68, 1]},
+	{"var(--border-dim)": [29, 28, 29, 0.1]},
+	{"var(--background-hover)": [29, 28, 29, 0.6]},
+	{"var(--text-subtle)": [29, 28, 29, 0.5]}
 ]

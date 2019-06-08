@@ -17,7 +17,7 @@
 
 	/* These should be less important: */
 	--background-light: #AAA;
-	--background-bright: #FFF;
+	--background-bright: var(--background-elevated);
 
 	--border-bright: var(--primary);
 
@@ -28,3 +28,7 @@
 	--scrollbar-background: #0000;
 	--scrollbar-border: var(--primary);
 }
+
+/* css overrides */
+span.c-reaction__tip, .ql-placeholder
+{ color: var(--text-bright) !important; }

@@ -9,22 +9,22 @@ def find(name, path) :
 		if name in files:
 			return os.path.join(root, name)
 
-def createJavascript() :
+def createJavascript(customcss='colors.css') :
 	# Modify colors.css to change your theme colors
 	colors = ''
-	with open('colors.css', 'r') as colorfile :
+	with open(customcss, 'r') as colorfile :
 		colors = colorfile.read()
 	replacements = ''
 	with open('replacements.json', 'r') as replacementsfile :
 		replacements = replacementsfile.read()
 
 	jsmod = """
-	replacements = {replacements.json will be added here};
+	const replacements = {replacements.json will be added here};
 
 	function convertColor(str)
 	{
-		color = [];
-		colorstring = str.match(/[0-9\\.]{1,10}/g);
+		let color = [];
+		let colorstring = str.match(/[0-9\\.]{1,10}/g);
 		for (let l = 0; l < colorstring.length; l++)
 		{ color[l] = parseFloat(colorstring[l]); }
 		if (colorstring.length < 4)
@@ -42,9 +42,9 @@ def createJavascript() :
 	{
 		if (color.length > 3 && color[3] == 0)
 		{ return "transparent"; }
-		lowest = 1000000;
-		index = -1;
-		for (m = 0; m < replacements.length; m++)
+		let lowest = 1000000;
+		let index = -1;
+		for (let m = 0; m < replacements.length; m++)
 		{
 			current = compareColors(Object.values(replacements[m])[0], color);
 			if (lowest > current)
@@ -57,31 +57,37 @@ def createJavascript() :
 	}
 	function darkMode()
 	{
-		allcss = '';
-		regex = /rgb[\\\\(a]{1,2}/;
-		for (s = 0; s < document.styleSheets.length; s++)
+		let allcss = 'textarea { color: var(--text) !important; }';
+		const regexReplace  = /rgb[a]{0,1}\\([0-9\\., ]{7,}\\)/;
+		const regexReplaceg = /rgb[a]{0,1}\\([0-9\\., ]{7,}\\)/g;
+		const regexMatchCss = /[a-z0-9A-Z\\-\\_\\.\\#]{1,}\\:[a-z0-9A-Z\\-\\(\\._#, ]{0,}rgb[a]{0,1}\\([0-9\\., ]{7,}\\)[0-9a-zA-Z\\(\\),\\.\\%\\-\\\\/"_@! ]{0,};/g;
+		for (let s = 0; s < document.styleSheets.length; s++)
 		{
-			for (i = 0; i < document.styleSheets[s].cssRules.length; i++)
+			for (let i = 0; i < document.styleSheets[s].cssRules.length; i++)
 			{
-				temprule = document.styleSheets[s].cssRules[i].cssText;
-				if (regex.test(temprule) && temprule.indexOf('sidebar') < 0 && temprule.indexOf('channels_list') < 0 && temprule.indexOf('#team_menu') < 0)
+				let temprule = document.styleSheets[s].cssRules[i].cssText;
+				let newrule = '';
+				if (regexMatchCss.test(temprule) && temprule.indexOf('sidebar') < 0 && temprule.indexOf('channels_list') < 0 && temprule.indexOf('#team_menu') < 0)
 				{
-					colorstrings = temprule.match(/rgb[a]{0,1}\\([0-9\\., ]{7,}\\)/g);
-					for (j = 0; j < colorstrings.length; j++)
+					let newrules = temprule.match(regexMatchCss);
+					for (let j = 0; j < newrules.length; j++)
 					{
-						replacement = findReplacement(convertColor(colorstrings[j]));
-						if (replacement)
-						{ temprule = temprule.replace(/rgb[a]{0,1}\\([0-9\\., ]{7,}\\)/, replacement); }
+						let colorstrings = newrules[j].match(regexReplaceg);
+						for (let o = 0; o < colorstrings.length; o++)
+						{
+							replacement = findReplacement(convertColor(colorstrings[o]));
+							if (replacement)
+							{ newrules[j] = newrules[j].replace(regexReplace, replacement); }
+						}
+						newrule = newrule + newrules[j] + ' ';
 					}
-					
-					// clean up temp rule here
-
-					allcss = allcss + temprule + '\\n';
 				}
+
+				allcss = allcss + temprule.substring(0, temprule.indexOf('{') + 1) + newrule + '}\\n';
 			}
 		}
 
-		allcss = '{your colors will go here}' + allcss;
+		allcss = '{your colors will go here}' + '\\n' + allcss;
 
 		$('<style></style>').appendTo('head').html(allcss);
 	}
@@ -93,7 +99,11 @@ def createJavascript() :
 	return jsmod
 
 def install() :
-	jsmod = createJavascript() + """
+	csspath = 'colors.css'
+	if os.path.isfile('custom/colors.css') :
+		csspath = 'custom/colors.css'
+		
+	jsmod = createJavascript(customcss=csspath) + """
 	if (window.addEventListener)
 		window.addEventListener('load', darkMode, false);
 	else if (window.attachEvent)
@@ -167,9 +177,6 @@ def uninstall() :
 
 
 if __name__ == '__main__' :
-	query = False
-	method = 'help'
-	params = []
 	if len(sys.argv) > 1 :
 		if sys.argv[1].startswith('uninst') :
 			uninstall()
@@ -180,4 +187,7 @@ if __name__ == '__main__' :
 		elif sys.argv[1].startswith('print') :
 			print(createJavascript())
 			print('darkMode()')
+	elif len(sys.argv) > 2 :
+		if sys.argv[1].startswith('css') :
+			cssfile = sys.argv[2]
 	else : install()
