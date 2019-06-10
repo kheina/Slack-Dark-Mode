@@ -10,14 +10,6 @@ def find(name, path) :
 			return os.path.join(root, name)
 
 def createJavascript(customcss='colors.css') :
-	# Modify colors.css to change your theme colors
-	colors = ''
-	with open(customcss, 'r') as colorfile :
-		colors = colorfile.read()
-	replacements = ''
-	with open('replacements.json', 'r') as replacementsfile :
-		replacements = replacementsfile.read()
-
 	jsmod = """
 	const replacements = {replacements.json will be added here};
 
@@ -57,7 +49,7 @@ def createJavascript(customcss='colors.css') :
 	}
 	function darkMode()
 	{
-		let allcss = 'textarea { color: var(--text) !important; }';
+		let allcss = '';
 		const regexReplace  = /rgb[a]{0,1}\\([0-9\\., ]{7,}\\)/;
 		const regexReplaceg = /rgb[a]{0,1}\\([0-9\\., ]{7,}\\)/g;
 		const regexMatchCss = /[a-z0-9A-Z\\-\\_\\.\\#]{1,}\\:[a-z0-9A-Z\\-\\(\\._#, ]{0,}rgb[a]{0,1}\\([0-9\\., ]{7,}\\)[0-9a-zA-Z\\(\\),\\.\\%\\-\\\\/"_@! ]{0,};/g;
@@ -87,14 +79,23 @@ def createJavascript(customcss='colors.css') :
 			}
 		}
 
-		allcss = '{your colors will go here}' + '\\n' + allcss;
+		allcss = '{your colors will go here}' + '\\n' + allcss + '\\n' + '{and overrides will be here}';
 
 		$('<style></style>').appendTo('head').html(allcss);
 	}
 	"""
 
-	jsmod = jsmod.replace('{your colors will go here}', colors.replace('\n', ' '))
-	jsmod = jsmod.replace('{replacements.json will be added here}', replacements.replace('\n', ' '))
+	with open('replacements.json', 'r') as replacementfile :
+		replacements = replacementfile.read()
+		jsmod = jsmod.replace('{replacements.json will be added here}', replacements.replace('\n', ' '))
+
+	with open(customcss, 'r') as colorfile :
+		colors = colorfile.read()
+		jsmod = jsmod.replace('{your colors will go here}', colors.replace('\n', ' '))
+
+	with open('overrides.css', 'r') as overridefile :
+		overrides = overridefile.read()
+		jsmod = jsmod.replace('{and overrides will be here}', overrides.replace('\n', ' '))
 
 	return jsmod
 
@@ -135,20 +136,15 @@ def install() :
 		if not os.path.isfile('ssb-interop-save.js') :
 			with open('ssb-interop-save.js', 'w') as slackjs :
 				slackjs.write(ssbinterop)
-
-		ssbinterop = ssbinterop + '\n\n\n' + jsmod
-
-		with open(installDirectory, 'w') as slackjs :
-			slackjs.write(ssbinterop)
 	else :
 		# load from save instead
 		with open('ssb-interop-save.js', 'r') as slackjs :
 			ssbinterop = slackjs.read()
 
-		ssbinterop = ssbinterop + '\n\n\n' + jsmod
+	ssbinterop = ssbinterop + '\n\n\n' + jsmod
 
-		with open(installDirectory, 'w') as slackjs :
-			slackjs.write(ssbinterop)
+	with open(installDirectory, 'w') as slackjs :
+		slackjs.write(ssbinterop)
 
 	print('done. please restart slack.')
 
