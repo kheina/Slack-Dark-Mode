@@ -26,8 +26,13 @@ def createJavascript(customcss='colors.css') :
 	function compareColors(color1, color2)
 	{
 		let distance = 0;
-		for (let k = 0; k < color1.length; k++)
+		for (let k = 0; k < 3; k++)
 		{ distance += (color1[k] - color2[k]) * (color1[k] - color2[k]); }
+		if (color1.length > 3 && color2.length > 3)
+		{
+			const d = (color1[3] * 255) - (color2[3] * 255);
+			distance += d * d;
+		}
 		return Math.sqrt(distance);
 	}
 	function findReplacement(color)
