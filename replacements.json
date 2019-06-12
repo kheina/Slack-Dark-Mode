@@ -31,5 +31,6 @@
 	{"var(--gold)": [242, 199, 68, 1]},
 	{"var(--border-dim)": [29, 28, 29, 0.1]},
 	{"var(--background-hover)": [29, 28, 29, 0.6]},
-	{"var(--text-subtle)": [29, 28, 29, 0.5]}
+	{"var(--text-subtle)": [29, 28, 29, 0.5]},
+	{"var(--highlight)": [242, 199, 68, 0.1]}
 ]

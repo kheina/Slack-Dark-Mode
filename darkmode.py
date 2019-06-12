@@ -9,7 +9,10 @@ def find(name, path) :
 		if name in files:
 			return os.path.join(root, name)
 
-def createJavascript(customcss='colors.css') :
+def createJavascript() :
+	global sensitivity
+	global cssfile
+
 	jsmod = """
 	const replacements = {replacements.json will be added here};
 
@@ -50,7 +53,7 @@ def createJavascript(customcss='colors.css') :
 				index = m;
 			}
 		}
-		return lowest < 50 ? Object.keys(replacements[index])[0] : false;
+		return lowest < {sensitivity} ? Object.keys(replacements[index])[0] : false;
 	}
 	function darkMode()
 	{
@@ -90,11 +93,13 @@ def createJavascript(customcss='colors.css') :
 	}
 	"""
 
+	jsmod = jsmod.replace('{sensitivity}', str(sensitivity))
+
 	with open('replacements.json', 'r') as replacementfile :
 		replacements = replacementfile.read()
 		jsmod = jsmod.replace('{replacements.json will be added here}', replacements.replace('\n', ' '))
 
-	with open(customcss, 'r') as colorfile :
+	with open(cssfile, 'r') as colorfile :
 		colors = colorfile.read()
 		jsmod = jsmod.replace('{your colors will go here}', colors.replace('\n', ' '))
 
@@ -105,11 +110,9 @@ def createJavascript(customcss='colors.css') :
 	return jsmod
 
 def install() :
-	csspath = 'colors.css'
-	if os.path.isfile('custom/colors.css') :
-		csspath = 'custom/colors.css'
+	global cssfile
 		
-	jsmod = createJavascript(customcss=csspath) + """
+	jsmod = createJavascript() + """
 	if (window.addEventListener)
 		window.addEventListener('load', darkMode, false);
 	else if (window.attachEvent)
@@ -178,17 +181,20 @@ def uninstall() :
 
 
 if __name__ == '__main__' :
-	if len(sys.argv) > 1 :
-		if sys.argv[1].startswith('uninst') :
-			uninstall()
+	method = 'install'
+	global cssfile
+	global sensitivity
+	cssfile = 'colors.css'
+	sensitivity = 50
+	for i in range(len(sys.argv)) :
+		if sys.argv[i].startswith('uninst') :
+			method = 'uninstall'
 			print('sorry you don\'t like darkmode, you can customize the colors in colors.css.\nfor now, please restart slack.')
-		elif sys.argv[1].startswith('reinst') :
-			uninstall()
-			install()
-		elif sys.argv[1].startswith('print') :
-			print(createJavascript())
-			print('darkMode()')
-	elif len(sys.argv) > 2 :
-		if sys.argv[1].startswith('css') :
-			cssfile = sys.argv[2]
-	else : install()
+		elif sys.argv[i].startswith('print') :
+			method = 'createJavascript'
+		elif sys.argv[i].startswith('css') :
+			cssfile = sys.argv[i+1]
+		elif sys.argv[i].startswith('sens') :
+			sensitivity = int(sys.argv[i+1])
+
+	getattr(sys.modules[__name__], method)()
