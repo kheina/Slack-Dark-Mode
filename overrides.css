@@ -1,4 +1,6 @@
 textarea
 { color: var(--text) !important; }
-span.c-reaction__tip, .ql-placeholder, .c-tooltip__tip, span.ts_tip_tip
+span.c-reaction__tip, .ql-placeholder, .c-tooltip__tip, span.ts_tip_tip, .c-unified_member__display-name
 { color: var(--text-bright) !important; }
+.c-unified_member__secondary-name
+{ color: var(--text-subtle) !important; }
