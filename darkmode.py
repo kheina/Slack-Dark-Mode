@@ -2,12 +2,15 @@ import subprocess
 import sys
 import os
 
-installFolders = ['/Applications/Slack.app', 'C:/Users/User/AppData/Local/slack', '/usr/lib/slack']
+installFolders = ['/Applications/Slack.app', f"{os.environ['USERPROFILE']}\\AppData\\Local\\slack", '/usr/lib/slack']
 
 def find(name, path) :
+	paths = []
 	for root, dirs, files in os.walk(path):
 		if name in files:
-			return os.path.join(root, name)
+			paths.append(os.path.join(root, name))
+	paths.sort(reverse=True)
+	return paths[0]
 
 def createJavascript() :
 	global sensitivity
