@@ -2,7 +2,7 @@ import subprocess
 import sys
 import os
 
-installFolders = ['/Applications/Slack.app', 'C:/Users/User/AppData/Local/slack', '/usr/lib/slack']
+installFolders = ['/Applications/Slack.app', f"{os.environ['USERPROFILE']}\\AppData\\Local\\slack", '/usr/lib/slack']
 
 def find(name, path) :
 	for root, dirs, files in os.walk(path):
