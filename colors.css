@@ -16,6 +16,16 @@
 	--highlight: #2F4A7460;
 
 
+	/* code colors */
+	--code-green: #8ae395;
+	--code-red: #f03c66;
+	--code-blue: #75bfff;
+	--code-magenta: #eb60d3;
+	--code-violet: #a57dfa;
+	--code-cyan: #2fb9eb;
+	--code-orange: #edb253;
+	--code-yellow: #ffe900;
+
 	/* These should be less important: */
 	--background-light: #AAA;
 	--background-bright: var(--background-elevated);

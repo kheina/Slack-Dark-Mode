@@ -1,4 +1,3 @@
-import subprocess
 import sys
 import os
 
@@ -182,6 +181,10 @@ def uninstall() :
 	with open(installDirectory, 'w') as slackjs :
 		slackjs.write(ssbinterop)
 
+def printJS() :
+	print(createJavascript())
+	print('darkMode()')
+
 
 if __name__ == '__main__' :
 	method = 'install'
@@ -194,7 +197,7 @@ if __name__ == '__main__' :
 			method = 'uninstall'
 			print('sorry you don\'t like darkmode, you can customize the colors in colors.css.\nfor now, please restart slack.')
 		elif sys.argv[i].startswith('print') :
-			method = 'createJavascript'
+			method = 'printJS'
 		elif sys.argv[i].startswith('css') :
 			cssfile = sys.argv[i+1]
 		elif sys.argv[i].startswith('sens') :

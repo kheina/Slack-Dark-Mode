@@ -32,5 +32,15 @@
 	{"var(--border-dim)": [29, 28, 29, 0.1]},
 	{"var(--background-hover)": [29, 28, 29, 0.6]},
 	{"var(--text-subtle)": [29, 28, 29, 0.5]},
-	{"var(--highlight)": [242, 199, 68, 0.1]}
+	{"var(--highlight)": [242, 199, 68, 0.1]},
+	{"var(--online)": [77, 162, 140, 1]},
+	{"var(--code-green)": [17, 102, 68, 1]},
+	{"var(--code-red)": [170, 17, 17, 1]},
+	{"var(--code-blue)": [0, 0, 255, 1]},
+	{"var(--code-violet)": [51, 0, 170, 1]},
+	{"var(--code-orange)": [170, 85, 0, 1]},
+	{"var(--code-magenta)": [119, 0, 136, 1]},
+
+	{"var(--code-yellow)": [255, 255, 0, 1]},
+	{"var(--code-cyan)": [0, 255, 255, 1]}
 ]
