@@ -1,7 +1,11 @@
 import sys
 import os
 
-installFolders = ['/Applications/Slack.app', f"{os.getenv('USERPROFILE')}\\AppData\\Local\\slack", '/usr/lib/slack']
+if sys.version_info < (3,0):
+	print('python 3 or greater is required to run this script')
+	exit(1)
+
+installFolders = ['/Applications/Slack.app', os.getenv('USERPROFILE') + '\\AppData\\Local\\slack', '/usr/lib/slack']
 
 def find(name, path) :
 	paths = []
@@ -60,9 +64,9 @@ def createJavascript() :
 	function darkMode()
 	{
 		let allcss = '';
-		const regexReplace  = /rgb[a]{0,1}\\([0-9\\., ]{7,}\\)/;
-		const regexReplaceg = /rgb[a]{0,1}\\([0-9\\., ]{7,}\\)/g;
-		const regexMatchCss = /[a-z0-9A-Z\\-\\_\\.\\#]{1,}\\:[a-z0-9A-Z\\-\\(\\._#, ]{0,}rgb[a]{0,1}\\([0-9\\., ]{7,}\\)[0-9a-zA-Z\\(\\),\\.\\%\\-\\\\/"_@! ]{0,};/g;
+		const regexReplace  = /rgb[a]?\\([0-9\\., ]{7,}\\)/;
+		const regexReplaceg = /rgb[a]?\\([0-9\\., ]{7,}\\)/g;
+		const regexMatchCss = /[a-z0-9A-Z\\-\\_\\.\\#]+\\:[a-z0-9A-Z\\-\\(\\._#, ]*rgb[a]?\\([0-9\\., ]{7,}\\)[0-9a-zA-Z\\(\\),\\.\\%\\-\\\\/"_@! ]*;/g;
 		for (let s = 0; s < document.styleSheets.length; s++)
 		{
 			for (let i = 0; i < document.styleSheets[s].cssRules.length; i++)
