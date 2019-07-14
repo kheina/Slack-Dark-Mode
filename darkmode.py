@@ -147,6 +147,12 @@ def install() :
 		with open(installDirectory, 'r') as slackjs :
 			ssbinterop = slackjs.read()
 
+		if ssbinterop.find("$('<style></style>').appendTo('head').html(allcss);") > 0 :
+			print('WARNING: ssb-interop-save.js not found in current directory, but darkmode install detected!')
+			print('Running the script again will break your darkmode install, but slack will continue to function.')
+			print('Either find your previous ssb-interop-save.js file and place it in this folder or manually uninstall darkmode')
+			exit(1)
+
 		if not os.path.isfile('ssb-interop-save.js') :
 			with open('ssb-interop-save.js', 'w') as slackjs :
 				slackjs.write(ssbinterop)
