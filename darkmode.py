@@ -20,6 +20,8 @@ def createJavascript() :
 	global cssfile
 
 	jsmod = """
+	///////////////////////////////////////////////////// DARK MODE /////////////////////////////////////////////////////
+
 	const replacements = {replacements.json will be added here};
 
 	function convertColor(str)
